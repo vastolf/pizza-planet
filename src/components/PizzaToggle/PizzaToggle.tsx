@@ -7,7 +7,6 @@ const PizzaToggle = (props: {personID: number}) => {
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) : Promise<void> => {
         event.preventDefault();
         setPizzaData({...pizzaData, selectedPerson: personID})
-        console.log(pizzaData?.selectedPerson)
     }
 
     return (
