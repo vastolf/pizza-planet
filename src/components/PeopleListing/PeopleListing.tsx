@@ -27,7 +27,7 @@ const PeopleListing = () => {
             {!!people &&
                 <ul className="people-listing">
                     {people?.map((person) => {
-                        return <li>{person?.name}</li>
+                        return <li className="people-listing__item">{person?.name}</li>
                     })}
                 </ul>
             }
