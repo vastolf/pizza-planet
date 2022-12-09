@@ -50,8 +50,7 @@ export const getPeople = async () => {
  */
 export const addPersonToDatabase = async (name: string) : Promise<boolean> => {
     try {
-        console.log(name)
-        const res = await mysqlQuery("INSERT IGNORE INTO people (name) VALUES (?)", [name])
+        const res = await mysqlQuery("INSERT INTO people (name) VALUES (?)", [name])
         return true
     } catch (error) {
         return false;

@@ -15,7 +15,7 @@ const addPerson = async (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse
         return;
     }
 
-    const response = await addPersonToDatabase(body?.name)
+    const response = await addPersonToDatabase(body?.name?.toLowerCase())
     
     res?.status(200)?.json(response)
 };
