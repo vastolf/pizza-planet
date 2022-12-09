@@ -1,0 +1,10 @@
+.pizza-listing {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.pizza-listing,
+.pizza-listing th,
+.pizza-listing td {
+    border: 1px solid;
+}

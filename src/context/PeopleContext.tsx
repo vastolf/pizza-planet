@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext } from 'react'
-import Person from '../components/Person/PersonType'
+import Person from '../types/PersonType'
 
 export const initialState = {
     data: [],

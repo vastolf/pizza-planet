@@ -12,6 +12,12 @@
     background: #eee;
 }
 
+.people-listing__item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .people-listing__item:nth-child(even) {
     background: #999;
 }
