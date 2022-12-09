@@ -11,7 +11,10 @@ const RefreshDatabase = () => {
     const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) : Promise<void> => {
         event.preventDefault();
         const databaseReset : Object = await axios.get('/api/resetDatabase')
-        console.log(databaseReset?.data)
+        let peopleReq = await axios.get('/api/people')
+        setPeopleData(peopleReq?.data)
+        let pizzaReq = await axios.get('/api/pizzas')
+        setPizzaData({selectedPerson: null, pizzas: pizzaReq?.data})
     }
 
     return (
