@@ -22,7 +22,6 @@ const addPizza = async (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse)
         res?.status(200)?.json(response)
     } catch (err) {
         res.status(400)
-        return;
     }
 };
 

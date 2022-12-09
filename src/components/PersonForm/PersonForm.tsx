@@ -37,7 +37,18 @@ const PersonForm = () => {
 
     return (
         <form className="person-form" onSubmit={handleSubmit}>
-            <input type="text" className="person-form__input" value={name} onChange={handleName} />
+            <label htmlFor="name">
+                <span>Enter Name: </span>
+                <input
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    type="text"
+                    className="person-form__input"
+                    value={name}
+                    onChange={handleName}
+                />
+            </label>
             <button type="submit">Add Person</button>
         </form>
     )
