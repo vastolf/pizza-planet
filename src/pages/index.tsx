@@ -2,11 +2,17 @@ import * as React from "react"
 import Layout from "../components/Layout/Layout"
 import type { HeadFC, PageProps } from "gatsby"
 import PeopleListing from "../components/PeopleListing/PeopleListing"
+import { usePeopleContext } from "../context/PeopleContext"
+import { usePizzaContext } from "../context/PizzaContext"
+import RefreshDatabase from "../components/RefreshDatabase/RefreshDatabase"
 
 const IndexPage: React.FC<PageProps> = () => {
+  const { data: peopleData, setData: setPeopleData } = usePeopleContext()
+  const { data: pizzaData, setData: setPizzaData } = usePizzaContext()
   return (
     <Layout>
       <PeopleListing />
+      <RefreshDatabase />
     </Layout>
   )
 }

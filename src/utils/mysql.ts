@@ -1,4 +1,6 @@
 import mysql, { ConnectionConfig, MysqlError } from 'mysql'
+import { convertZuluToEpoch } from './date'
+import defaultData from '../../data.json'
 
 // MYSQL creds used to open a connection to the database
 const mysqlCredentials : ConnectionConfig = {
@@ -21,7 +23,7 @@ const mysqlQuery = async (query: string, params: string[]) : Promise<Object | Er
                 query,
                 params,
                 (err: MysqlError | null, results: any) => {
-                    if (err) throw err;
+                    if (err) resolve({})
                     connection.end();
                     resolve(results)
                 }
@@ -33,13 +35,65 @@ const mysqlQuery = async (query: string, params: string[]) : Promise<Object | Er
     });
 }
 
+const createPizzasTable = async () : Promise<void> => {
+    // This query string just creates the pizzas table with all necessary fields
+    await mysqlQuery("CREATE TABLE `pizzas` (`id` int(11) unsigned NOT NULL AUTO_INCREMENT, `person` int(11) NOT NULL, `topping` text NOT NULL, `timestamp` VARCHAR(16) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;", [])
+}
+
+const createPeopleTable = async () : Promise<void> => {
+    // This query string just creates the people table with all necessary fields
+    await mysqlQuery("CREATE TABLE `people` (`id` int(11) unsigned NOT NULL AUTO_INCREMENT, `name` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;", [])
+}
+
+const createClearDatabaseTables = async() : Promise<void> => {
+    // Drop tables
+    await mysqlQuery('DROP TABLE people;', [])
+    await mysqlQuery('DROP TABLE pizzas;', [])
+    
+    // Create the tables
+    await createPeopleTable()
+    await createPizzasTable()
+    
+}
+
+export const setDefaultDatabaseData = async () : Promise<Boolean> => {
+    try {
+        // Create and/or clear database tables
+        await createClearDatabaseTables()
+        
+        let peopleNamesString : string = ''
+        let pizzasDataString : string = ''
+        
+        Object.keys(defaultData).forEach((name) => {
+            // Generate People Names insert string
+            peopleNamesString += "('"+name+"'), "
+            // Generate Pizzas Data insert string
+            defaultData[name].forEach((pizza: {topping: string, date: string}) => {
+                pizzasDataString += "('"+(Object.keys(defaultData).indexOf(name) + 1)+"', '"+pizza?.topping+"', "+convertZuluToEpoch(pizza?.date)+"), "
+            })
+        })
+        
+        await mysqlQuery("INSERT INTO people (name) VALUES "+peopleNamesString.slice(0, -2), [])
+
+        await mysqlQuery("INSERT INTO pizzas (person, topping, timestamp) VALUES "+pizzasDataString.slice(0, -2), [])
+
+        return true
+    } catch (error) {
+        return false
+    }
+}
+
 /**
  * 
  * @returns All people currently in the 'people' table of the database
  */
 export const getPeople = async () => {
-    const res = await mysqlQuery('SELECT * FROM people;', []);
-    return res;
+    try {
+        const res = await mysqlQuery('SELECT * FROM people;', []);
+        return res
+    } catch (error) {
+        return []
+    }
 }
 
 /**
@@ -62,8 +116,12 @@ export const addPersonToDatabase = async (name: string) : Promise<boolean> => {
  * @returns All pizzas currently in the 'pizzas' table of the database
  */
  export const getPizzas = async () => {
-    const res = await mysqlQuery('SELECT * FROM pizzas;', []);
-    return res;
+    try {
+        const res = await mysqlQuery('SELECT * FROM pizzas;', []);
+        return res;
+    } catch (error) {
+        return []
+    }
 }
 
 /**
@@ -87,15 +145,15 @@ const getPizzaEater = async (personID: string) : Promise<Object | null> => {
  * @param topping The name of the topping that should be set on this pizza
  * @returns false if query is in error or the personID is invalid; otherwise, true
  */
-export const addPizzaToDatabase = async (personID: string, topping: string) : Promise<boolean> => {
+export const addPizzaToDatabase = async (personID: string, topping: string, timestamp: string) : Promise<boolean> => {
     try {
         const pizzaEater = await getPizzaEater(personID);
         if (pizzaEater === null || Object.keys(pizzaEater).length < 1) {
             return false;
         }
         const res = await mysqlQuery(
-            `INSERT INTO pizzas (person, topping, timestamp) VALUES (${parseInt(personID)}, ?, ?)`,
-            [topping, '2022-01-01T00:00:00.000Z']
+            `INSERT INTO pizzas (person, topping, timestamp) VALUES (${parseInt(personID)}, ?, ${convertZuluToEpoch(timestamp)})`,
+            [topping]
         )
         return true
     } catch (error) {
