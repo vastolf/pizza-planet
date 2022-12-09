@@ -66,3 +66,27 @@ export const addPersonToDatabase = async (name: string) : Promise<boolean> => {
     }
 }
 
+const getPizzaEater = async (personID: string) : Promise<Object | null> => {
+    try {
+        const res = await mysqlQuery(`SELECT * FROM people WHERE id = ${parseInt(personID)}`, [])
+        return res;
+    } catch (error) {
+        return null;
+    }
+}
+
+export const addPizzaToDatabase = async (personID: string, topping: string) : Promise<boolean> => {
+    try {
+        const pizzaEater = await getPizzaEater(personID);
+        if (pizzaEater === null || Object.keys(pizzaEater).length < 1) {
+            return false;
+        }
+        const res = await mysqlQuery(
+            `INSERT INTO pizzas (person, topping, timestamp) VALUES (${parseInt(personID)}, ?, ?)`,
+            [topping, '2022-01-01T00:00:00.000Z']
+        )
+        return true
+    } catch (error) {
+        return false;
+    }
+}

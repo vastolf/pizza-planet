@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import './styles.css'
 import { usePeopleContext } from '../../context/PeopleContext';
 
-const PeopleListing = () => {
+const PersonForm = () => {
     const { data: peopleData, setData: setPeopleData } = usePeopleContext()
     const [name, setName] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false)
@@ -44,4 +43,4 @@ const PeopleListing = () => {
     )
 }
 
-export default PeopleListing
+export default PersonForm

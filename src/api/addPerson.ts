@@ -1,6 +1,7 @@
 import { GatsbyFunctionRequest, GatsbyFunctionResponse } from 'gatsby';
-import { newPersonNameIsValid } from '../utils/validate';
+import { dbEntryStringIsValid } from '../utils/validate';
 import { addPersonToDatabase } from '../utils/mysql';
+import PersonAddRequest from '../types/PersonAddRequest';
 
 const addPerson = async (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse) => {
     if (req?.method !== `POST`) {
@@ -8,9 +9,9 @@ const addPerson = async (req: GatsbyFunctionRequest, res: GatsbyFunctionResponse
         return;
     }
     
-    const body = req?.body;
+    const body : PersonAddRequest = req?.body;
 
-    if (!body || !body?.name || !newPersonNameIsValid(body?.name)) {
+    if (!body || !body?.name || !dbEntryStringIsValid(body?.name)) {
         res.status(400)
         return;
     }
