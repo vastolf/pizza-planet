@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { usePizzaContext } from '../../context/PizzaContext'
 import Pizza from '../../types/PizzaType'
+import PizzaForm from '../PizzaForm/PizzaForm'
 import './styles.css'
 
 const PizzaListing = (props: {personID: number}) => {
@@ -37,6 +38,7 @@ const PizzaListing = (props: {personID: number}) => {
         {personPizzas?.length < 1 &&
             <div className="pizza-listing">No pizzas found for this person</div>
         }
+        <PizzaForm personID={personID} />
         </>
     )
 }

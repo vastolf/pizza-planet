@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import './styles.css'
 import { usePeopleContext } from '../../context/PeopleContext';
 
-const PeopleListing = () => {
+const PersonForm = () => {
     const { data: peopleData, setData: setPeopleData } = usePeopleContext()
     const [name, setName] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false)
@@ -38,10 +37,21 @@ const PeopleListing = () => {
 
     return (
         <form className="person-form" onSubmit={handleSubmit}>
-            <input type="text" className="person-form__input" value={name} onChange={handleName} />
+            <label htmlFor="name">
+                <span>Enter Name: </span>
+                <input
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    type="text"
+                    className="person-form__input"
+                    value={name}
+                    onChange={handleName}
+                />
+            </label>
             <button type="submit">Add Person</button>
         </form>
     )
 }
 
-export default PeopleListing
+export default PersonForm
