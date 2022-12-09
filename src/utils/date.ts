@@ -4,5 +4,6 @@
  * @returns The number of MS between unix epoch & the zuluTimestamp provided
  */
 export const convertZuluToEpoch = (zuluTimestamp: string) : number => {
-    return new Date(zuluTimestamp).valueOf();
+    const date = new Date(zuluTimestamp).toUTCString();
+    return new Date(date).valueOf()
 }
