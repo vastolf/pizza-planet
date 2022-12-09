@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import PersonForm from '../PersonForm/PersonForm';
 import { Link } from 'gatsby';
 import './styles.css'
 import Person from '../Person/PersonType';
@@ -20,8 +21,6 @@ const PeopleListing = () => {
         setPeopleData()
     }, [])
 
-    console.log(people)
-
     return (
         <>
             {!!people &&
@@ -29,6 +28,9 @@ const PeopleListing = () => {
                     {people?.map((person) => {
                         return <li className="people-listing__item">{person?.name}</li>
                     })}
+                    <li className="people-listing__item">
+                        <PersonForm />
+                    </li>
                 </ul>
             }
         </>
