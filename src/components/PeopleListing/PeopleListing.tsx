@@ -1,34 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
-import { Link } from 'gatsby';
+import PersonForm from '../PersonForm/PersonForm';
 import './styles.css'
+import { usePeopleContext } from '../../context/PeopleContext';
 import Person from '../Person/PersonType';
 
 const PeopleListing = () => {
-    const [people, setPeople] = useState<Person[]>()
+    const { data: peopleData, setData: setPeopleData } = usePeopleContext()
     
-    const setPeopleData = async () => {
-        if (!!people) return
+    const refreshPeopleData = async () => {
+        if (peopleData.length > 0) return
         // Get people stored in database
         let peopleReq = await axios.get('/api/people')
         // If the status is not 200, return null
         if (peopleReq?.status !== 200) return null
-        setPeople(peopleReq?.data)
+        setPeopleData(peopleReq?.data)
     }
 
     useEffect(() => {
-        setPeopleData()
+        refreshPeopleData()
     }, [])
-
-    console.log(people)
 
     return (
         <>
-            {!!people &&
+            {(!!peopleData && peopleData.length > 0) &&
                 <ul className="people-listing">
-                    {people?.map((person) => {
+                    {peopleData?.map((person: Person) => {
                         return <li className="people-listing__item">{person?.name}</li>
                     })}
+                    <li className="people-listing__item">
+                        <PersonForm />
+                    </li>
                 </ul>
             }
         </>
