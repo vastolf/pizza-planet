@@ -11,7 +11,7 @@ const mysqlQuery = async (query: string) => {
     return new Promise((resolve, reject) => {
         const connection = mysql.createConnection(mysqlCredentials);
         try {
-            connection.query('SELECT * FROM people;', function (error, results, fields) {
+            connection.query(query, function (error: MysqlError, results: any) {
                 if (error) throw error;
                 connection.end();
                 resolve(results)

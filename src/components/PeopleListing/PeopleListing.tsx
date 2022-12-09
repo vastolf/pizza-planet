@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import PersonListing from './PersonListingType';
 import axios from 'axios'
 import { Link } from 'gatsby';
 import './styles.css'
+import Person from '../Person/PersonType';
 
 const PeopleListing = () => {
-    const [people, setPeople] = useState<PersonListing>()
+    const [people, setPeople] = useState<Person[]>()
     
     const setPeopleData = async () => {
         if (!!people) return
