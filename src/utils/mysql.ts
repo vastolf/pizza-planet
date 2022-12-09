@@ -44,6 +44,15 @@ export const getPeople = async () => {
 
 /**
  * 
+ * @returns All pizzas currently in the 'pizzas' table of the database
+ */
+ export const getPizzas = async () => {
+    const res = await mysqlQuery('SELECT * FROM pizzas;', []);
+    return res;
+}
+
+/**
+ * 
  * @param name The name of the person we want to add
  * @returns true if: the name doesn't already exist in the database, it passes character validation, and is added to
  * the database successfully. Otherwise it returns false
