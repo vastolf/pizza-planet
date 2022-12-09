@@ -1,0 +1,17 @@
+.people-listing {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: 650px;
+    margin: 2rem auto;
+    border: 1px solid #999;
+}
+
+.people-listing__item {
+    padding: 1rem;
+    background: #eee;
+}
+
+.people-listing__item:nth-child(even) {
+    background: #999;
+}

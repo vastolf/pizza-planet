@@ -1,11 +1,12 @@
 import * as React from "react"
 import Layout from "../components/Layout/Layout"
 import type { HeadFC, PageProps } from "gatsby"
+import PeopleListing from "../components/PeopleListing/PeopleListing"
 
 const IndexPage: React.FC<PageProps> = () => {
   return (
     <Layout>
-      <>Test Content</>
+      <PeopleListing />
     </Layout>
   )
 }
