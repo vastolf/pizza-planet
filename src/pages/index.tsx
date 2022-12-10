@@ -5,6 +5,7 @@ import PeopleListing from "../components/PeopleListing/PeopleListing"
 import { usePeopleContext } from "../context/PeopleContext"
 import { usePizzaContext } from "../context/PizzaContext"
 import RefreshDatabase from "../components/RefreshDatabase/RefreshDatabase"
+import PizzaStreaks from "../components/PizzaStreaks/PizzaStreaks"
 
 const IndexPage: React.FC<PageProps> = () => {
   const { data: peopleData, setData: setPeopleData } = usePeopleContext()
@@ -12,6 +13,7 @@ const IndexPage: React.FC<PageProps> = () => {
   return (
     <Layout>
       <PeopleListing />
+      <PizzaStreaks />
       <RefreshDatabase />
     </Layout>
   )

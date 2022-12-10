@@ -7,3 +7,9 @@ export const convertZuluToEpoch = (zuluTimestamp: string) : number => {
     const date = new Date(zuluTimestamp).toUTCString();
     return new Date(date).valueOf()
 }
+
+export const getUTCDateFromEpoch = (epoch: number) : string => {
+    const date = new Date(0)
+    date.setUTCMilliseconds(epoch)
+    return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
+}
