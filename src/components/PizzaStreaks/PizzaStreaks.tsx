@@ -22,7 +22,10 @@ const PizzaStreaks = () => {
             {streaks?.map(streak => {
                 if (streak?.length === 1) return
                 return (
-                    <div className="pizza-streak__Item">Dates: {streak?.map(entry => { return entry?.date+", " })} Length: {streak?.length}</div>
+                    <div className="pizza-streak__Item">
+                        <span>Dates: {streak?.map(entry => { return entry?.date+", " })}</span> 
+                        <span>Length of Streak: {streak?.length}</span>
+                    </div>
                 )
             })}
         </div>
