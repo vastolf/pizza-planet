@@ -8,7 +8,6 @@ const PizzaStreaks = () => {
     const { data: pizzaData, setData: setPizzaData } = usePizzaContext()
 
     const updatePizzaStreaksData = async () => {
-        if (streaks?.length > 0) return
         const streaksReq = await axios.get('/api/pizzaStreaks')
         if (streaksReq?.status !== 200) return
         setStreaks(streaksReq?.data)
@@ -24,7 +23,7 @@ const PizzaStreaks = () => {
             {streaks?.map(streak => {
                 if (streak?.length === 1) return
                 return (
-                    <div className="pizza-streak__Item">
+                    <div className="pizza-streak__item">
                         <span>Dates: {streak?.map(entry => { return entry?.date+", " })}</span> 
                         <span>Length of Streak: {streak?.length}</span>
                     </div>
