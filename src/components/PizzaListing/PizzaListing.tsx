@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { usePizzaContext } from '../../context/PizzaContext'
 import Pizza from '../../types/PizzaType'
 import PizzaForm from '../PizzaForm/PizzaForm'
+import { getUTCDateFromEpoch } from '../../utils/date'
 import './styles.css'
 
 const PizzaListing = (props: {personID: number}) => {
@@ -20,7 +21,7 @@ const PizzaListing = (props: {personID: number}) => {
                 <thead>
                     <tr>
                         <td>Topping</td>
-                        <td>Order Datetime</td>
+                        <td>Order Date (yyyy-mm-dd)</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,7 +29,7 @@ const PizzaListing = (props: {personID: number}) => {
                         return (
                             <tr className="pizza-listing__row">
                                 <td>{pizza?.topping}</td>
-                                <td>{pizza?.timestamp}</td>
+                                <td>{getUTCDateFromEpoch(pizza?.timestamp)}</td>
                             </tr>
                         )
                     })}

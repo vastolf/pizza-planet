@@ -1,0 +1,13 @@
+.pizza-days {
+    max-width: 650px;
+    margin: 2rem auto;
+}
+
+.pizza-days__form,
+.pizza-days__desc {
+    margin-bottom: 1rem;
+}
+
+.pizza-days__label {
+    margin-right: 1rem;
+}
