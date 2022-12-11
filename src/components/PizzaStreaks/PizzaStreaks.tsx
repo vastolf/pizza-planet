@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { usePizzaContext } from '../../context/PizzaContext'
 import './styles.css'
 
 const PizzaStreaks = () => {
     const [streaks, setStreaks] = useState<[]>([])
+    const { data: pizzaData, setData: setPizzaData } = usePizzaContext()
 
     const updatePizzaStreaksData = async () => {
         if (streaks?.length > 0) return
@@ -14,7 +16,7 @@ const PizzaStreaks = () => {
 
     useEffect(() => {
         updatePizzaStreaksData()
-    }, [])
+    }, [pizzaData])
 
     return (
         <div className="pizza-streaks">
