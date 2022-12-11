@@ -7,6 +7,7 @@ const PizzaDay = () => {
     const [days, setDays] = useState<{}>({})
     const [month, setMonth] = useState<number>(1)
     const [year, setYear] = useState<number>(2015)
+    const [biggestDay, setBiggestDay] = useState<[]>([])
     const { data: pizzaData, setData: setPizzaData } = usePizzaContext()
     const months : number[] = [...Array(12).keys()]
     const currentDate = new Date()
@@ -14,28 +15,32 @@ const PizzaDay = () => {
     for (var i = 2015; i <= currentDate?.getUTCFullYear(); i++) {
         years.push(i);
     }
-
-    const biggestDay = Object.entries(days)
-        ?.reduce((biggest, group) => biggest.length > group[1]?.length ? biggest : group, [])
     
     const updatePizzaDaysData = async () => {
         const daysReq = await axios.post('/api/pizzaDay', {month: month, year: year})
         if (daysReq?.status !== 200) return
         setDays(daysReq?.data)
+        const bigDay = Object.entries(days)
+        ?.filter((group) => {
+            return group[0].indexOf(year.toString()+'-'+month.toString()) > -1
+        })
+        ?.reduce((biggest, group) => biggest.length > group[1]?.length ? biggest : group, [])
+        setBiggestDay(bigDay)
     }
 
     const handleMonth = (event : React.ChangeEvent<HTMLSelectElement>) : void => {
         setYear(parseInt(event?.target?.value))
+        updatePizzaDaysData()
     }
 
     const handleYear = (event : React.ChangeEvent<HTMLSelectElement>) : void => {
         setYear(parseInt(event?.target?.value))
+        updatePizzaDaysData()
     }
 
     useEffect(() => {
         updatePizzaDaysData()
     }, [pizzaData, month, year])
-    
 
     return (
         <div className="pizza-days">
