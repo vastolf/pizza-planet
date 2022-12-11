@@ -40,7 +40,7 @@ const PizzaDay = () => {
 
     useEffect(() => {
         updatePizzaDaysData()
-    }, [pizzaData, month, year])
+    }, [pizzaData, biggestDay])
 
     return (
         <div className="pizza-days">
