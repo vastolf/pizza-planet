@@ -143,6 +143,7 @@ const getPizzaEater = async (personID: string) : Promise<Object | null> => {
  * 
  * @param personID The stringified ID of the person who will be tracked as having had consumed this pizza
  * @param topping The name of the topping that should be set on this pizza
+ * @param timestamp The Zulu/UTC timestamp string we want to convert to Unix Epoch format
  * @returns false if query is in error or the personID is invalid; otherwise, true
  */
 export const addPizzaToDatabase = async (personID: string, topping: string, timestamp: string) : Promise<boolean> => {
@@ -151,6 +152,8 @@ export const addPizzaToDatabase = async (personID: string, topping: string, time
         if (pizzaEater === null || Object.keys(pizzaEater).length < 1) {
             return false;
         }
+        // It's safe to insert the timestamp directly into the MYSQL query string without escaping because we are
+        // passing it to convertZuluToEpoch which will always return a number
         const res = await mysqlQuery(
             `INSERT INTO pizzas (person, topping, timestamp) VALUES (${parseInt(personID)}, ?, ${convertZuluToEpoch(timestamp)})`,
             [topping]
