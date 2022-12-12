@@ -19,8 +19,8 @@ const PizzaDay = () => {
     const updatePizzaDaysData = async () => {
         const daysReq = await axios.post('/api/pizzaDay', {month: month, year: year})
         if (daysReq?.status !== 200) return
-        setDays(daysReq?.data)
-        const bigDay = Object.entries(days)
+        
+        const bigDay = Object.entries(daysReq?.data)
         ?.filter((group) => {
             return group[0].indexOf(year.toString()+'-'+month.toString()) > -1
         })
@@ -29,18 +29,16 @@ const PizzaDay = () => {
     }
 
     const handleMonth = (event : React.ChangeEvent<HTMLSelectElement>) : void => {
-        setYear(parseInt(event?.target?.value))
-        updatePizzaDaysData()
+        setMonth(parseInt(event?.target?.value))
     }
 
     const handleYear = (event : React.ChangeEvent<HTMLSelectElement>) : void => {
         setYear(parseInt(event?.target?.value))
-        updatePizzaDaysData()
     }
 
     useEffect(() => {
         updatePizzaDaysData()
-    }, [pizzaData, biggestDay])
+    }, [pizzaData, month, year])
 
     return (
         <div className="pizza-days">
